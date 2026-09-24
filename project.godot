@@ -13,7 +13,7 @@ config_version=5
 config/name="Layed-off"
 run/main_scene="res://src/worlds/World.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://icons/icon.svg"
 
 [autoload]
 
