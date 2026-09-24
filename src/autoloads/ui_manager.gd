@@ -15,7 +15,7 @@ func show_storage_menu(target: Node2D, player: Node2D) -> void:
 	var canvas := CanvasLayer.new()
 	canvas.name = "StorageMenu"
 	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(620, 360)
+	panel.custom_minimum_size = Vector2(0, 0)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 
 	var root := VBoxContainer.new()
@@ -41,7 +41,7 @@ func show_storage_menu(target: Node2D, player: Node2D) -> void:
 
 func _build_inventory_column(title_text: String, items: Array[ItemData], target: Node2D, player: Node2D, canvas: CanvasLayer) -> Control:
 	var column := VBoxContainer.new()
-	column.custom_minimum_size = Vector2(280, 260)
+	column.custom_minimum_size = Vector2(0, 0)
 
 	var title := Label.new()
 	title.text = title_text
@@ -60,6 +60,7 @@ func _build_inventory_column(title_text: String, items: Array[ItemData], target:
 		button.text = item.name
 		if item.texture != null:
 			button.icon = item.texture
+			button.expand_icon = true
 
 		if title_text == "Player inventory":
 			button.text = "Add  " + item.name

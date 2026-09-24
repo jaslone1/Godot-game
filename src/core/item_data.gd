@@ -6,5 +6,5 @@ extends Resource
 @export var texture: Texture2D
 @export var is_placeable: bool = false
 @export var placeable_on: PackedStringArray = []
-@export var item_scale: Vector2 = Vector2(1, 1)
+@export var item_scale: Vector2 = Vector2(.5, .5)
 @export var placement_offset: Vector2 = Vector2.ZERO

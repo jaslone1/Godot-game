@@ -10,5 +10,5 @@ display_name = "Apple"
 texture = ExtResource("2_apple")
 is_placeable = true
 placeable_on = []
-item_scale = Vector2(1, 1)
+item_scale = Vector2(0.3, 0.3)
 placement_offset = Vector2(0, 0)

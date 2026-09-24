@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://beh5iv6nitvi1"]
+[gd_scene load_steps=5 format=3 uid="uid://beh5iv6nitvi1"]
 
 [ext_resource type="Script" path="res://src/objects/container/shelf.gd" id="1_fhovi"]
+[ext_resource type="Texture2D" uid="uid://ppdxwstbg2fb" path="res://icons/sideboard-svgrepo-com.svg" id="2_3w8sr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mp1u1"]
 size = Vector2(190, 192)
@@ -10,6 +11,13 @@ size = Vector2(191, 192)
 
 [node name="Shelf" type="Area2D"]
 script = ExtResource("1_fhovi")
+
+[node name="HeldItemSprite" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0.0196078, 1)
+position = Vector2(1, 6.49997)
+scale = Vector2(0.245, 0.24125)
+texture = ExtResource("2_3w8sr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 8)

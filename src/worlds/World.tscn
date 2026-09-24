@@ -8,32 +8,38 @@
 
 [node name="World" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(0.5, 0.5)
+
 [node name="Player" parent="." instance=ExtResource("1_dx84h")]
 position = Vector2(216, 73)
 
 [node name="PickupItem" parent="." instance=ExtResource("2_8lcg2")]
 self_modulate = Color(0.99205, 0.842292, 0.764421, 1)
 position = Vector2(792, 90)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 item_data = ExtResource("3_v0o57")
 
 [node name="PickupItem2" parent="." instance=ExtResource("2_8lcg2")]
 self_modulate = Color(1, 0.0823529, 1, 1)
 position = Vector2(814, 406)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 item_data = ExtResource("4_4i1ii")
 
 [node name="Shelf" parent="." instance=ExtResource("5_xigcv")]
 position = Vector2(379, 369)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.5, 0.5)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.801
+anchor_bottom = 0.744
+offset_right = 0.247925
+offset_bottom = -0.112
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.655394, 0.656958, 0.951428, 1)
