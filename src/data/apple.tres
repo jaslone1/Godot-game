@@ -1,8 +1,14 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://3ilhkkcim8js"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://3ilhkkcim8js"]
 
 [ext_resource type="Script" path="res://src/core/item_data.gd" id="1_wsqth"]
+[ext_resource type="Texture2D" path="res://icons/apple-svgrepo-com.svg" id="2_apple"]
 
 [resource]
 script = ExtResource("1_wsqth")
 name = "Apple"
+display_name = "Apple"
+texture = ExtResource("2_apple")
 is_placeable = true
+placeable_on = PackedStringArray("shelf")
+item_scale = Vector2(1, 1)
+placement_offset = Vector2(0, 0)

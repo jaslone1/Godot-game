@@ -1,8 +1,14 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://bnd4kp055a2bf"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bnd4kp055a2bf"]
 
 [ext_resource type="Script" path="res://src/core/item_data.gd" id="1_abwxe"]
+[ext_resource type="Texture2D" path="res://icons/banana-svgrepo-com.svg" id="2_banana"]
 
 [resource]
 script = ExtResource("1_abwxe")
 name = "Banana"
+display_name = "Banana"
+texture = ExtResource("2_banana")
 is_placeable = true
+placeable_on = PackedStringArray("shelf")
+item_scale = Vector2(1, 1)
+placement_offset = Vector2(0, 0)
