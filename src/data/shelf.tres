@@ -1,8 +1,14 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://0eca2gv8bm16"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://0eca2gv8bm16"]
 
 [ext_resource type="Script" path="res://src/core/item_data.gd" id="1_0h4aq"]
+[ext_resource type="Texture2D" uid="uid://ppdxwstbg2fb" path="res://icons/sideboard-svgrepo-com.svg" id="2_6qxif"]
 
 [resource]
 script = ExtResource("1_0h4aq")
 name = "Item"
+display_name = "Item"
+texture = ExtResource("2_6qxif")
 is_placeable = true
+placeable_on = []
+item_scale = Vector2(1, 1)
+placement_offset = Vector2(0, 0)
