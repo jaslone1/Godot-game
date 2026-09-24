@@ -1,17 +1,25 @@
 extends Area2D
 
-@onready var held_item_sprite: Sprite2D = $HeldItemSprite
+@export var accepted_types: PackedStringArray = []
+@export var max_items: int = 12
 
-var accepted_types: Array[String] = ["surface"]
-var item_on_top: ItemData = null
+var stored_items: Array[ItemData] = []
+
+signal storage_updated
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
+func get_stored_items() -> Array[ItemData]:
+	return stored_items
+
+func is_storage_full() -> bool:
+	return stored_items.size() >= max_items
+
 func can_accept_item(item: ItemData) -> bool:
-	if item == null or not item.is_placeable:
+	if item == null or not item.is_placeable or is_storage_full():
 		return false
-	if item.placeable_on.is_empty():
+	if accepted_types.is_empty() or item.placeable_on.is_empty():
 		return true
 	for accepted_type in accepted_types:
 		if item.placeable_on.has(accepted_type):
@@ -20,32 +28,23 @@ func can_accept_item(item: ItemData) -> bool:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		if item_on_top != null:
-			print("This surface is full! It has a ", item_on_top.name)
-			return
+		UIManager.show_storage_menu(self, body)
 
-		var placeable_options = Inventory.get_placeable_items_for(accepted_types[0])
-		if placeable_options.is_empty():
-			print("You ran into the surface, but you have no items to place here!")
-			return
-
-		UIManager.show_placement_menu(placeable_options, self)
-
-func receive_placed_item(item: ItemData) -> void:
+func store_item(item: ItemData) -> bool:
 	if not can_accept_item(item):
-		return
+		return false
+	if not Inventory.remove_item(item):
+		return false
+	stored_items.append(item)
+	storage_updated.emit()
+	print("Stored ", item.name)
+	return true
 
-	item_on_top = item
-	Inventory.remove_item(item)
-	Inventory.inventory_updated.emit()
-
-	if item.texture != null:
-		held_item_sprite.texture = item.texture
-		held_item_sprite.scale = item.item_scale
-		held_item_sprite.position = item.placement_offset
-	else:
-		held_item_sprite.texture = load("res://icons/icon.svg")
-		held_item_sprite.scale = Vector2(0.5, 0.5)
-		held_item_sprite.self_modulate = Color.DARK_GOLDENROD
-
-	print("Successfully placed ", item.name, " on the surface!")
+func take_item(item: ItemData) -> bool:
+	if not stored_items.has(item):
+		return false
+	stored_items.erase(item)
+	Inventory.add_item(item)
+	storage_updated.emit()
+	print("Taken ", item.name)
+	return true
