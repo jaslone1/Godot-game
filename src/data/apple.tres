@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://3ilhkkcim8js"]
+
+[ext_resource type="Script" path="res://src/core/item_data.gd" id="1_wsqth"]
+
+[resource]
+script = ExtResource("1_wsqth")
+name = "Apple"
+is_placeable = true

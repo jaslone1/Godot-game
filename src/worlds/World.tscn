@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxpvjlsj12avr"]
+
+[ext_resource type="PackedScene" uid="uid://dbplbdk6uh3ff" path="res://src/entities/player/player.tscn" id="1_dx84h"]
+[ext_resource type="PackedScene" uid="uid://dfmx3frrc7dhv" path="res://src/objects/pickup/pickup_item.tscn" id="2_8lcg2"]
+[ext_resource type="Resource" uid="uid://3ilhkkcim8js" path="res://src/data/apple.tres" id="3_v0o57"]
+[ext_resource type="Resource" uid="uid://bnd4kp055a2bf" path="res://src/data/banana.tres" id="4_4i1ii"]
+[ext_resource type="PackedScene" uid="uid://beh5iv6nitvi1" path="res://src/objects/container/shelf.tscn" id="5_xigcv"]
+
+[node name="World" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_dx84h")]
+position = Vector2(128, 114)
+
+[node name="PickupItem" parent="." instance=ExtResource("2_8lcg2")]
+self_modulate = Color(0.99205, 0.842292, 0.764421, 1)
+position = Vector2(480, 135)
+item_data = ExtResource("3_v0o57")
+
+[node name="PickupItem2" parent="." instance=ExtResource("2_8lcg2")]
+self_modulate = Color(1, 0.0823529, 1, 1)
+position = Vector2(457, 300)
+item_data = ExtResource("4_4i1ii")
+
+[node name="Shelf" parent="." instance=ExtResource("5_xigcv")]
+position = Vector2(121, 315)

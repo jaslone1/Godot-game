@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfmx3frrc7dhv"]
+
+[ext_resource type="Script" path="res://src/objects/pickup/pickup_item.gd" id="2_gvyo5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4m3e"]
+size = Vector2(128, 130)
+
+[node name="PickupItem" type="Area2D"]
+script = ExtResource("2_gvyo5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.203922, 1, 1)
+self_modulate = Color(0.883958, 0.399187, 0.522712, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_p4m3e")
