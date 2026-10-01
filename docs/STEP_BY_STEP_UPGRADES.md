@@ -19,6 +19,69 @@ The current project uses Godot 4 and has these important areas:
 - `src/worlds/` — maps and level scenes
 - `icons/` — item textures
 
+## Functions
+
+This section explains the main functions in the autoload scripts that power the inventory and interaction flow.
+
+### `src/autoloads/inventory_manager.gd`
+
+- `add_item(item: ItemData) -> void`
+  - Adds an item to the player's inventory array.
+  - Emits `inventory_updated` so any UI bound to the inventory can refresh.
+  - Ignores null values to prevent crashes.
+
+- `remove_item(item: ItemData) -> bool`
+  - Removes a given item from the player's inventory if it exists.
+  - Returns `true` when the item was successfully removed and `false` otherwise.
+  - Also emits `inventory_updated` after a successful removal.
+
+- `get_placeable_items_for(target_type: String) -> Array[ItemData]`
+  - Returns only inventory items that can be placed on a given target type.
+  - Filters out null items and items that are not marked as placeable.
+  - Uses `item.placeable_on` if the item has a type restriction.
+
+- `drop_item(item: ItemData, drop_position: Vector2) -> void`
+  - Removes the item from the inventory and spawns a pickup object in the current scene.
+  - Used when the player intentionally drops an item onto the map.
+  - Loads the pickup scene, assigns the item data, and places it at the given world position.
+
+### `src/autoloads/ui_manager.gd`
+
+- `_unhandled_input(event: InputEvent) -> void`
+  - Watches for the `toggle_inventory` input action.
+  - If a storage menu is already open, it closes it.
+  - Otherwise, if a valid target and player are active, it opens the storage menu.
+
+- `show_storage_menu(target: Node2D, player: Node2D) -> void`
+  - Builds and displays the storage transfer UI.
+  - Creates a temporary `CanvasLayer` that contains the player inventory column and, when present, the storage object's item list.
+  - Stores the active target and player so the menu can refresh correctly.
+
+- `_build_inventory_column(title_text: String, items: Array[ItemData], target: Node2D, player: Node2D, canvas: CanvasLayer) -> Control`
+  - Creates a column of inventory buttons for either the player inventory or the storage inventory.
+  - Shows an "Empty" label when the list is empty.
+  - Uses different button labels and behavior depending on whether it is the player side or storage side.
+
+- `_store_item(item: ItemData, target: Node2D, player: Node2D, canvas: CanvasLayer) -> void`
+  - Attempts to move an item from the player inventory into the target storage object.
+  - Calls `target.store_item(item)` and refreshes the menu if successful.
+
+- `_take_item(item: ItemData, target: Node2D, player: Node2D, canvas: CanvasLayer) -> void`
+  - Attempts to move an item from the storage object back into the player's inventory.
+  - Calls `target.take_item(item)` and refreshes the menu if successful.
+
+- `_refresh_storage_menu(canvas: CanvasLayer, target: Node2D, player: Node2D) -> void`
+  - Closes the current inventory menu and reopens it so the state is updated immediately.
+  - Ensures both inventory columns reflect the newest item lists.
+
+- `_close_storage_menu(canvas: CanvasLayer) -> void`
+  - Frees the temporary UI canvas.
+  - Clears the active references so the menu is no longer considered open.
+
+- `_get_player() -> Node2D`
+  - Finds the player node from the `player` group when a direct reference is not available.
+  - Used as a fallback for inventory and interaction logic.
+
 ## 1. Establish the item data model
 
 Use `src/core/item_data.gd` as the single definition for an item type.
