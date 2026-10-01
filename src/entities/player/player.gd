@@ -10,6 +10,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 	move_and_slide()
+	
 func _unhandled_input(event: InputEvent) -> void:
 	# Press the "G" key (for Ground/Give) to drop the first item in your pocket
 	if event is InputEventKey and event.pressed and event.keycode == KEY_G:

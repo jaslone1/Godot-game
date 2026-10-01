@@ -2,32 +2,54 @@ extends Node
 
 var active_target: Node2D = null
 var active_player: Node2D = null
+var active_canvas: CanvasLayer = null # Track the active canvas globally for button toggles
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Listens for your keyboard/controller action button press
+	if event.is_action_pressed("toggle_inventory"):
+		if is_instance_valid(active_canvas):
+			_close_storage_menu(active_canvas)
+		elif is_instance_valid(active_target) and is_instance_valid(active_player):
+			var player := active_player if is_instance_valid(active_player) else _get_player()
+			if is_instance_valid(player):
+				show_storage_menu(active_target, player)
 
 func show_storage_menu(target: Node2D, player: Node2D) -> void:
-	if not is_instance_valid(target) or not is_instance_valid(player):
+	# Only require player to be valid now (target can be null for personal inventory)
+	if not is_instance_valid(player):
 		return
-	if active_target != null:
-		return
+	
+	if is_instance_valid(active_canvas):
+		_close_storage_menu(active_canvas)
 
 	active_target = target
 	active_player = player
 
 	var canvas := CanvasLayer.new()
 	canvas.name = "StorageMenu"
+	active_canvas = canvas
+	
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(0, 0)
 	panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 
 	var root := VBoxContainer.new()
 	var title := Label.new()
-	title.text = "Inventory"
+	# Set title based on whether a container is being accessed
+	title.text = "Container Inventory" if is_instance_valid(target) else "Player Inventory"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	root.add_child(title)
 
 	var columns := HBoxContainer.new()
 	columns.add_theme_constant_override("separation", 24)
+	
+	# Always show the Player's inventory column
 	columns.add_child(_build_inventory_column("Player inventory", Inventory.items, target, player, canvas))
-	columns.add_child(_build_inventory_column("Stored here", target.get_stored_items(), target, player, canvas))
+	
+	# Only show the container column if accessing a valid target
+	if is_instance_valid(target):
+		columns.add_child(_build_inventory_column("Stored here", target.get_stored_items(), target, player, canvas))
+		
 	root.add_child(columns)
 
 	var close_button := Button.new()
@@ -88,5 +110,12 @@ func _refresh_storage_menu(canvas: CanvasLayer, target: Node2D, player: Node2D) 
 func _close_storage_menu(canvas: CanvasLayer) -> void:
 	if is_instance_valid(canvas):
 		canvas.queue_free()
-	active_target = null
-	active_player = null
+	# Nullify our shortcut reference
+	if active_canvas == canvas:
+		active_canvas = null
+		active_target = null
+		active_player = null
+		
+func _get_player() -> Node2D:
+	# Adjust "Player" group or node path to match your project setup
+	return get_tree().get_first_node_in_group("player") as Node2D
